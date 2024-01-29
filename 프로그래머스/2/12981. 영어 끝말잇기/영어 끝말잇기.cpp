@@ -15,17 +15,11 @@ vector<int> solution(int n, vector<string> words) {
     for(int i = 1; i < words.size(); i++)
     {
         number = (i % n) + 1;
-        count  = i / n + 1;
+        count  = (i / n) + 1;
         
         int prevLastChar = words[i - 1].back();
         
-        if(prevLastChar != words[i].front())
-        {
-            check = true;
-            break;
-        }
-        
-        if(dedupeSet.find(words[i]) != dedupeSet.end())
+        if(prevLastChar != words[i].front() || dedupeSet.find(words[i]) != dedupeSet.end())
         {
             check = true;
             break;
