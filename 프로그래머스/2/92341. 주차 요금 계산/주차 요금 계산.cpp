@@ -5,6 +5,19 @@
 
 using namespace std;
 
+int calculateMin(const int& h , const int& InPrevH ,const int& m, const int& InPrevM)
+{
+    int prevH = InPrevH;
+    int prevM = InPrevM;
+        
+    int newH = 0;
+    int newM = 0;
+        
+    newH += (h - prevH) * 60;
+    newM += (m - prevM);
+    
+    return newH + newM;
+}
 
 // fees   : 기본 시간 / 기본 요금 / 단위 시간 / 단위 요금
 // record : 시각 (00:00 ~ 23:59) / 차량 번호 / 내역 ( In, Out)
@@ -47,13 +60,8 @@ vector<int> solution(vector<int> fees, vector<string> records) {
         
         int prevH = historyMap[carNum].first;
         int prevM = historyMap[carNum].second;
-        
-        int newH = 0;
-        int newM = 0;
-        
-        newH += (h - prevH) * 60;
-        newM += (m - prevM);
-        int ret = newH + newM;
+
+        int ret = calculateMin(h, prevH , m , prevM);
         
         resultMap[carNum] += ret;
         historyMap.erase(carNum);
@@ -64,13 +72,8 @@ vector<int> solution(vector<int> fees, vector<string> records) {
     {
         int prevH = m.second.first;
         int prevM = m.second.second;
-        
-        int newH = 0;
-        int newM = 0;
-        
-        newH += (23 - prevH) * 60;
-        newM += (59 - prevM);
-        int ret = newH + newM;
+
+        int ret = calculateMin(23, prevH , 59 , prevM);
         
         resultMap[m.first] += ret;
     }
