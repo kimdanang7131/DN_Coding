@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <algorithm>
 
 using namespace std;
 
@@ -60,8 +61,19 @@ void dfs(int level, string s)
     }   
 }
 
+bool compare(char a, char b)
+{
+    return a > b;
+}
+
 int solution(string numbers) {
-    EratosthenesInit(10000000);
+    
+    string temp;
+    temp = numbers;
+
+    sort(temp.begin(), temp.end(),compare);
+    
+    EratosthenesInit(stoi(temp));
     
     // char 벡터로 변환하여 저장
     for(int i=0; i < numbers.size(); i++) 
