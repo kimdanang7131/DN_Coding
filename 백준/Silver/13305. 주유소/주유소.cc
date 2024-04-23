@@ -1,66 +1,33 @@
 #include <iostream>
-#include <queue>
 
 using namespace std;
 
-
-int n;
-
 int main() 
 {
+	int n;
 	cin >> n;
 	
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> costPQ;
-	
-	vector<int> dist(n - 1,0);
-	
-	int remainDist = 0;
-	
-	for(int i=0; i < n - 1; i++)
-	{
-		cin >> dist[i];
-		remainDist += dist[i];
-	}
-	
-	vector<int> perCost(n,0);
-	
-	for(int i=0; i<n; i++)
-	{
-		cin >> perCost[i];
+	long long * distance = new long long[n-1];
+	for(int i=0; i< n-1; i++)
+		cin >> distance[i];
 		
-		costPQ.push({perCost[i],i});
-	}
+	long long* cost = new long long[n];
+	for(int j=0; j<n; j++)
+		cin >> cost[j];
 	
-	
-	pair<int,int> minPair(0,0);
-	while(!costPQ.empty())
+	long long sum = 0;
+	for(int k=0; k< n-1; k++)
 	{
-		minPair.first  = costPQ.top().first;
-		minPair.second = costPQ.top().second;
-		costPQ.pop();
-		
-		if(minPair.second != n - 1)
-			break;
+		if(cost[k] < cost[k+1])
+			cost[k+1] = cost[k];
+			
+		sum += cost[k] * distance[k];
 	}
 	
-	int minIdx  = minPair.second;
-	int minCost = minPair.first;
+	cout << sum;
 	
-	unsigned long long sum = 0;
-	for(int i=0; i < n; i++)
-	{
-		if(i == minIdx)
-		{
-			sum += remainDist * minCost;
-			break;
-		}
+	delete []distance;
+	delete []cost;
 		
-		// 최소가격 
-		sum += dist[i] * perCost[i];
-		remainDist -= dist[i];
-	}
-	
-	cout << sum << endl; 
-	
 	return 0;
 }
