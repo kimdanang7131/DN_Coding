@@ -18,7 +18,7 @@ vector<long long> solution(vector<long long> numbers) {
             {
                 if((num & bit) == 0)
                     break;
-                bit *= 2;
+                bit = bit << 1;
             }
             
             bit = bit / 2;
