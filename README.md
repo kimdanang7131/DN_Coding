@@ -3,4 +3,4 @@ Programmers Level 0 All Solved
  
 Programmers Level 1 All Solved
 
-BackJun Rank Bronze 1
+BackJun Rank Silver 5
