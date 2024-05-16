@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <algorithm>
 
 using namespace std;
 
@@ -17,7 +16,7 @@ int dy[] = { -2 ,  -2,   -1  ,   1 ,   -1  ,   1 ,   2  ,   2  };
 
 vector<vector<bool>> checkVec;
 
-void bfs(const int& x , const int& y)
+int bfs(const int& x , const int& y)
 {
 	queue<pair<pair<int,int> , int>> q;
 	q.push({{x,y} , 0});
@@ -34,8 +33,7 @@ void bfs(const int& x , const int& y)
 		
 		if(cx == px && cy == py)
 		{
-			minVec.push_back(cnt);
-			break;
+			return cnt;
 		}
 		
 		for(int i=0; i < 8; i++)
@@ -54,12 +52,6 @@ void bfs(const int& x , const int& y)
 			}
 		}
 	}
-	
-	if(minVec.size() > 0)
-	{
-			sort(minVec.begin(), minVec.end());
-			cout << minVec.front() << endl;
-	}
 }
 
 
@@ -77,7 +69,8 @@ int main()
 		cin >> a >> b;
 		cin >> px >> py;
 		
-		bfs(a,b);
+		int ans = bfs(a,b);
+        cout << ans << endl;
 	}
 	return 0;
 }
