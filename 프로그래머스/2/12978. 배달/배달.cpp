@@ -2,47 +2,81 @@
 #include <vector>
 using namespace std;
 
-#define INF 500000
+#define INF 100000000
 
-int solution(int N, vector<vector<int>> road, int K) {
+vector<vector<int>> graphVec;
+vector<bool> visitVec;
+vector<int> distVec;
+
+int GetSmallIndex(const int& n)
+{
+    int min = INF;
+    int index = 0;
+    
+    for(int i=1; i <= n; i++)
+    {
+        if(distVec[i] < min && !visitVec[i])
+        {
+            min = distVec[i];
+            index = i;
+        }
+    }
+    return index;
+}
+
+void dijkstra(const int& n , const int& srt)
+{
+    for(int i = 1; i <= n; i++)
+    {
+        distVec[i] = graphVec[srt][i];
+    }
+    
+    for(int i = 1; i <= n - 1; i++)
+    {
+        int current = GetSmallIndex(n);
+        visitVec[current] = true;
+        for(int j = 1; j <= n; j++)
+        {
+            if(!visitVec[j])
+            {
+                if(distVec[current] + graphVec[current][j] < distVec[j])
+                {
+                    distVec[j] = distVec[current] + graphVec[current][j];
+                }
+            }
+        }
+    }
+}
+
+int solution(int N, vector<vector<int> > road, int K) {
     int answer = 0;
     
-    vector<vector<int>> boardVec(N + 1, vector<int>(N + 1,INF));
+    graphVec.assign(N + 1, vector<int>(N + 1, INF));
+    visitVec.assign(N + 1 , false);
+    distVec.assign(N + 1, INF);
     
-    for (int i = 1; i <= N; ++i) 
-        boardVec[i][i] = 0; 
+    for(int i = 1; i <= N; i++)
+    {
+        graphVec[i][i] = 0;
+    }
     
     for(int i=0; i<road.size(); i++)
     {
-        int s = road[i][0];
-        int e = road[i][1];
-        int t = road[i][2];
+        int start = road[i][0];
+        int end   = road[i][1];
+        int cost  = road[i][2];
         
-        boardVec[s][e] = min(boardVec[s][e] , t);
-        boardVec[e][s] = min(boardVec[e][s] , t);
-    }
-    
-    for(int k = 1; k <= N; k++)
-    {
-        for(int i = 1; i <= N; i++)
-        {
-             for(int j = 1; j <= N; j++)
-             {
-                 if(boardVec[i][k] + boardVec[k][j] < boardVec[i][j])
-                 {
-                     boardVec[i][j] = boardVec[i][k] + boardVec[k][j];
-                 }
-             }
-         }
-    }
-    
-    
-    for (int i = 1; i <= N; i++) 
-	{
-        if(boardVec[1][i] <= K)
-                ++answer;
+        graphVec[start][end] = min(graphVec[start][end], cost);
+        graphVec[end][start] = min(graphVec[end][start], cost);
     }
 
+    dijkstra(N, 1);
+    
+    for(int i = 1; i <= N; i++)
+    {
+        if(distVec[i] <= K)
+            ++answer;
+    }
 
     return answer;
 }
