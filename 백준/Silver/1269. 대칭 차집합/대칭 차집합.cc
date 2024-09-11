@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <set>
 
 using namespace std;
 
@@ -12,33 +11,27 @@ int main()
 	cin.tie(NULL);
 	//cout.tie(NULL);
 	
-	set<int> st;
 	
 	cin >> n >> m;
+	vector<bool> v(100000001);
 	
-	
-	while(n--)
+	for(int i=0; i < n + m; i++)
 	{
-		int i = 0;
-		cin >> i;
+		int idx = 0;
+		cin >> idx;
 		
-		st.insert(i);
+		v[idx] = !v[idx];
 	}
 	
-	int cnt = 0;
+	int ans = 0;
 	
-	while(m--)
+	for(int i=0; i<100000001; i++)
 	{
-		int i = 0;
-		cin >> i;
-		
-		if(st.count(i) > 0)
-			cnt++;
-			
-		st.insert(i);
+		if(v[i] == 1)
+			ans++;
 	}
 	
-	cout << st.size() - cnt;
+	cout << ans;
 	
 	return 0;
 }
