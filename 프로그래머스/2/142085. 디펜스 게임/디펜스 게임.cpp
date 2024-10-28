@@ -7,8 +7,6 @@
 using namespace std;
 
 int solution(int n, int k, vector<int> enemy) {
-    int answer = 0;
-    
     priority_queue<int> pq;
     
     int i = 0;
@@ -32,7 +30,6 @@ int solution(int n, int k, vector<int> enemy) {
                 break;
         }
     }
-    
-    answer = i;
-    return answer;
+ 
+    return i;
 }
