@@ -18,7 +18,6 @@ int main()
 	for(int i = 0; i < n; i++)
 		cin >> arr[i];
 	
-	int minNum = INF;
 	
 	int s,e;
 	s = e = 0;
@@ -32,13 +31,12 @@ int main()
 		
 		while(sum >= t)
 		{
-			minNum = min(minNum , sum);
-			len =  min(len , e - s);
-			sum -= arr[s++];
+			len = min(len, e - s);
+			sum -= arr[s++];	
 		}
 	}
 	
-	if(minNum == INF)
+	if(len == INF)
 		cout << 0 << endl;
 	else
 		cout << len << endl;
