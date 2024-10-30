@@ -1,53 +1,69 @@
 #include <iostream>
 #include <vector>
-
+#include <queue>
+#include <algorithm>
 using namespace std;
 
-int n , m;
+#define endl '\n'
+#define INF 0x7ffffff
 
-int graph[1001][1001];
-bool visit[1001];
+int n, m;
+int ret;
+vector<vector<int>> graphVec;
+vector<bool> visitVec;
 
-int ans;
-
-bool dfs(const int& v)
+void BFS(const int& x)
 {
-	if(visit[v] == true)
-		return false;
-		
-	visit[v] = true;
+	queue<int> q;
+	q.push(x);
+	visitVec[x] = true;
 	
-	for(int i=1; i <= n; i++)
+	while(!q.empty())
 	{
-		if(graph[v][i] == 1 && visit[i] == false)
+		int cur = q.front();
+		q.pop();
+		
+		for(int i = 0; i < graphVec[cur].size(); i++)
 		{
-			dfs(i);
+			int next = graphVec[cur][i];
+			
+			if(!visitVec[next])
+			{
+				visitVec[next] = true;
+				q.push(next);
+			}
 		}
 	}
-	
-	return true;
 }
 
 int main()
-{	
-	cin >> n >> m;
+{    
+	ios::sync_with_stdio(0);    
+	cin.tie(0);
 	
-	for(int i=0; i<m; i++)
-	{
-		int a ,b;
+    cin >> n >> m;
+    graphVec.resize(n + 1);    
+    visitVec.resize(n + 1, false);
+    
+    for(int i = 0; i < m; i++)
+    {
+    	int u, v;
+		cin >> u >> v;
 		
-		cin >> a >> b;
-		
-		graph[a][b] = 1;
-		graph[b][a] = 1;
+		graphVec[u].push_back(v);
+		graphVec[v].push_back(u);
 	}
 	
-	for(int i =1; i <= n; i++)
+	for(int i = 1; i <= n; i++)
 	{
-		if(dfs(i))
-			++ans;
+		if(visitVec[i] == false)
+		{
+			BFS(i);
+			ret++;
+		}
 	}
-	
-	cout << ans << endl;
+		
+		
+	cout << ret << endl;
 	return 0;
 }
