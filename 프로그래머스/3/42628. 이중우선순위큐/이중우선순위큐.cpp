@@ -28,19 +28,6 @@ void Delete(const string& s)
         if(!dQ.empty())
             dQ.pop_front();
     }
-    else
-    {
-        int n = stoi(s);
-        
-        for(auto iter = dQ.begin(); iter != dQ.end(); iter++)
-        {
-            if(*iter == n)
-            {
-                dQ.erase(iter);
-                break;
-            }
-        }
-    }
 }
 
 vector<int> solution(vector<string> operations) {
