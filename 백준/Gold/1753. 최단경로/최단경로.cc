@@ -1,67 +1,75 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-
+#include <set>
+#include <stack>
+#include <algorithm>
+#include <tuple>
 using namespace std;
 
-#define MAXNUM 20001
-#define INF 98098098
+#define endl '\n'
+#define INF 0x7ffffff
+#define X first
+#define Y second
 
-int V,E,K;
-vector<pair<int,int>> graphVec[MAXNUM];
-int dist[MAXNUM];
+int v,e;
+int k;
 
-void bfs()
+vector<pair<int,int>> graphVec[20005];
+int d[20005];
+
+void dijkstra(const int& srt)
 {
-	priority_queue<pair<int,int>> pq;
-	dist[K] = 0;
-	pq.push({0,K});
+	for(int i = 1; i <= v; i++)
+		d[i] = INF;
 	
-	while(!pq.empty())
+	priority_queue<pair<int,int>, vector<pair<int,int>> , greater<pair<int,int>>> pq;
+	d[srt] = 0;
+	pq.push(make_pair(d[srt] , srt));
+	
+	while(!pq.empty())	
 	{
-		int cost = -pq.top().first;
-		int cur = pq.top().second;
+		pair<int,int> cur = pq.top();
 		pq.pop();
 		
-		for (int i = 0; i < graphVec[cur].size(); i++)
+		if(d[cur.Y] != cur.X) continue;
+		
+		for(const pair<int,int>& nxt : graphVec[cur.Y])
 		{
-			int nCur  = graphVec[cur][i].first;
-			int nCost = graphVec[cur][i].second;
-			
-			if(dist[nCur] > cost + nCost)
+			if(d[nxt.Y] > d[cur.Y] + nxt.X)
 			{
-				dist[nCur] = cost + nCost;
-				pq.push({-dist[nCur] , nCur});
+				d[nxt.Y] = d[cur.Y] + nxt.X;
+				pq.push(make_pair(d[nxt.Y], nxt.Y));
 			}
 		}
-	}
-	
-	for(int i=1; i<=V; i++)
-	{
-		if (dist[i] == INF)
-			cout << "INF" << endl;
-		else
-			cout << dist[i] << endl;
 	}
 }
 
 int main()
-{	
-	cin >> V >> E >> K;
+{    
+	ios::sync_with_stdio(0);    
+	cin.tie(0);
 	
-	for(int i=0; i < E; i++)
+	cin >> v >> e;
+	cin >> k;
+	
+	for(int i=0; i<e; i++)
 	{
-		int u,v,w;
-		cin >> u >> v>> w;
+		int a,b,c;
 		
-		graphVec[u].push_back({v,w});
+		cin >> a >> b >> c;
+		
+		graphVec[a].push_back(make_pair(c,b));
 	}
 	
-	for(int i=1; i<=V; i++)
-		dist[i] = INF;
+	dijkstra(k);
 	
-	bfs();
-	
+	for(int i = 1; i <=v; i++)
+	{
+		if(d[i] == INF) cout << "INF" << endl;
+		else	cout << d[i] << endl;
+	}
 	
 	return 0;
 }
+
