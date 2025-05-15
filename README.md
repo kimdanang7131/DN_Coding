@@ -2,4 +2,4 @@
 Programmers Level 0 - All Solved <br/>
 Programmers Level 1 - All Solved
 
-BackJun Rank Gold   - 4
+BackJun Rank Gold   - 3
